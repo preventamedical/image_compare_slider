@@ -44,6 +44,7 @@ class ImageCompareSlider extends StatefulWidget {
     this.changePositionOnHover = false,
     this.onPositionChange,
     this.position = 0.5,
+    this.disablePositionChange = false,
     this.dividerColor = Colors.white,
     this.handleColor,
     this.handleOutlineColor,
@@ -92,6 +93,8 @@ class ImageCompareSlider extends StatefulWidget {
   /// Initial percentage position of divide (0-1).
   final double position;
 
+  /// Prevents changing the position of the handle
+  final bool disablePositionChange;
   /// Color of the divider
   final Color dividerColor;
 
@@ -231,9 +234,9 @@ class _ImageCompareSliderState extends State<ImageCompareSlider> {
     final child = ClipRRect(
       borderRadius: widget.photoRadius,
       child: GestureDetector(
-        onTapDown: (details) => onDetection(details.globalPosition),
-        onPanUpdate: (details) => onDetection(details.globalPosition),
-        onPanEnd: (_) => updatePosition(position),
+        onTapDown: (details) => widget.disablePositionChange == true ? null : onDetection(details.globalPosition),
+        onPanUpdate: (details) => widget.disablePositionChange == true ? null : onDetection(details.globalPosition),
+        onPanEnd: (_) => widget.disablePositionChange == true ? null : updatePosition(position),
         child: Stack(
           children: [
             ClipRect(

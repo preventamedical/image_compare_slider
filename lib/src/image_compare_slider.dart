@@ -234,9 +234,9 @@ class _ImageCompareSliderState extends State<ImageCompareSlider> {
     final child = ClipRRect(
       borderRadius: widget.photoRadius,
       child: GestureDetector(
-        onTapDown: (details) => widget.disablePositionChange == true ? null : onDetection(details.globalPosition),
-        onPanUpdate: (details) => widget.disablePositionChange == true ? null : onDetection(details.globalPosition),
-        onPanEnd: (_) => widget.disablePositionChange == true ? null : updatePosition(position),
+        onTapDown: (details) => widget.disablePositionChange == true ? {} : onDetection(details.globalPosition),
+        onPanUpdate: (details) => widget.disablePositionChange == true ? {} : onDetection(details.globalPosition),
+        onPanEnd: (_) => widget.disablePositionChange == true ? {} : updatePosition(position),
         child: Stack(
           children: [
             ClipRect(

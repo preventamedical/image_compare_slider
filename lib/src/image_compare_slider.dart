@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 part 'slider_clipper.dart';
+
 part 'divider_painter.dart';
 
 /// Slider direction.
@@ -95,6 +96,7 @@ class ImageCompareSlider extends StatefulWidget {
 
   /// Prevents changing the position of the handle
   final bool disablePositionChange;
+
   /// Color of the divider
   final Color dividerColor;
 
@@ -151,6 +153,7 @@ class _ImageCompareSliderState extends State<ImageCompareSlider> {
   late double handlePosition;
 
   void initPosition() => position = widget.position;
+
   void initHandlePosition() => handlePosition = widget.handlePosition;
 
   @override
@@ -233,10 +236,8 @@ class _ImageCompareSliderState extends State<ImageCompareSlider> {
 
     final child = ClipRRect(
       borderRadius: widget.photoRadius,
-      child: GestureDetector(
-        onTapDown: (details) => widget.disablePositionChange == true ? {} : onDetection(details.globalPosition),
-        onPanUpdate: (details) => widget.disablePositionChange == true ? {} : onDetection(details.globalPosition),
-        onPanEnd: (_) => widget.disablePositionChange == true ? {} : updatePosition(position),
+      child: gestureDetectorOption(
+        enabled: !widget.disablePositionChange,
         child: Stack(
           children: [
             ClipRect(
@@ -282,5 +283,15 @@ class _ImageCompareSliderState extends State<ImageCompareSlider> {
             child: child,
           )
         : child;
+  }
+
+  Widget gestureDetectorOption({required bool enabled, required Widget child}) {
+    return enabled
+        ? GestureDetector(
+            onTapDown: (details) => onDetection(details.globalPosition),
+            onPanUpdate: (details) => onDetection(details.globalPosition),
+            onPanEnd: (_) => updatePosition(position),
+            child: child,)
+        : SizedBox(child: child);
   }
 }
